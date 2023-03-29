@@ -1,0 +1,38 @@
+/**
+2 * 3*
+4 *
+5 *
+6*... 7 
+LOGO8_Arduino_MsgModbus_Doku_3_Sensoren.ino
+Version: 1.0, 28.10.2019
+Version: 1.0, 28.10.2019*/
+
+#include <Ethernet.h>
+#include"MgsModbus.h"
+
+MgsModbus mb;      //Objekterzeugung 13
+                  //Ethernet-SettingHEMS: 15
+                  //-MAC-undIP-AdressedesHEMS-Arduino-Ethernet-ShieldNummer11
+byte mac[]={0xA8,0x61,0x0A,0xAE,0xAA,0x90};
+IPAddress ip(192, 168, 178, 159);
+IPAddress gateway(10, 16, 1, 5); // Standard-Gateway HEMS
+ //(fuer App-Zugriff via WLAN)
+IPAddress subnet(192, 168, 178, 158);//Standard-SubnetzmaskeHEMS
+//Setup-Methode
+void setup(){
+  Ethernet.begin(mac, ip, gateway, subnet); // Netzwerk-Objekt erzeugen 30
+
+}
+//Loop-Methode 37
+void loop(){ 
+  int wert0 = 11;
+  int wert1 = 22;
+  int wert2 = 33;
+
+  mb.MbData[0] = wert0; // Array Index 0 ist HR 1 (Modbus-Adresse 40001)
+  mb.MbData[1] = wert1; // Array Index 1 ist HR 2 (Modbus-Adresse 40003)
+  mb.MbData[2] = wert2; // Array Index 2 ist HR 3 (Modbus-Adresse 40005)
+
+  //Starte Modbus-Slave-Kommunikation...
+  mb.MbsRun();
+}
